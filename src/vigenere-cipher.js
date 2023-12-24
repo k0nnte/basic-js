@@ -20,13 +20,69 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(bool){
+    this.bool = bool;
+    this.alf = `abcdefghijklmnopqrstuvwxyz`;
+    
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str1,str2) {
+    if(str1 === undefined || str2 === undefined){
+      throw new Error("Incorrect arguments!");
+    }
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
+    while(str1.length>str2.length){
+      str2 += str2;
+    }
+    let rez = str1.split(``);
+    let it = 0;
+   for(let i = 0;i<rez.length;i++){
+    if(rez[i] >= 'a' && rez[i] <= 'z'){
+      let q =  this.alf.indexOf(rez[i]);
+      let w = this.alf.indexOf(str2[it]);
+      if((q + w) > 25){
+        rez[i] = this.alf[(q + w)-26];
+      }else{
+        rez[i] = this.alf[(q +w)];
+      }
+      it++;
+    }
+   }
+   if(this.bool === true || this.bool === undefined){
+    return rez.join(``).toUpperCase();
+   }else{
+    return rez.reverse().join(``).toUpperCase();
+   }
+  }
+  decrypt(str1,str2) {
+    if(str1 === undefined || str2 === undefined){
+      throw new Error("Incorrect arguments!");
+    }
+    str1 = str1.toLowerCase();
+    str2 = str2.toLowerCase();
+
+    while(str1.length>str2.length){
+      str2 += str2;
+    }
+    let rez = str1.split(``);
+    let it = 0;
+    for(let i = 0;i<rez.length;i++){
+      if(rez[i] >= 'a' && rez[i] <= 'z'){
+        let q =  this.alf.indexOf(rez[i]);
+        let w = this.alf.indexOf(str2[it]);
+        if((q - w) <0){
+          rez[i] = this.alf[(q - w)+26];
+        }else{
+          rez[i] = this.alf[(q - w)];
+        }
+        it++;
+      }
+     }
+     if(this.bool === true || this.bool === undefined){
+      return rez.join(``).toUpperCase();
+     }else{
+      return rez.reverse().join(``).toUpperCase();
+     }
   }
 }
 
